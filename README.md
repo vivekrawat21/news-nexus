@@ -1,6 +1,6 @@
 # Next.js Project
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [create-next-app](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) 
 
 ## About This Application
 
@@ -11,8 +11,8 @@ This application is built using Next.js, a React framework that enables function
 First, clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/vivekrawat21/news-nexus.git
+cd news-nexus
 ```
 
 Then, install the dependencies:
