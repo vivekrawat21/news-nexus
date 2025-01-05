@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     }
 
     
-    const data :NewsArticle = await response.json();
+    const data :NewsResponse = await response.json();
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in API route:', error);
