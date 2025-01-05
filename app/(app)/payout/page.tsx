@@ -16,6 +16,7 @@ export default function PayoutPage() {
   const [payoutHistory, setPayoutHistory] = useState<any[]>([]); // Store previous payouts
   const [isClient, setIsClient] = useState(false); // Check if it's the client-side render
   const router = useRouter();
+  // 
  
   // Ensure we're on the client-side before trying to access the user or localStorage
   useEffect(() => {
