@@ -2,7 +2,7 @@ export const fetchNews = async () => {
 
   try {
     const response = await fetch(
-      `https:newsapi.org/v2/everything?q=tesla&from=2024-12-05&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/everything?q=tesla&from=2024-12-05&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
     );
     const data = await response.json();
     console.log(data)
