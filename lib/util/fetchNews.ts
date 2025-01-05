@@ -1,14 +1,26 @@
-export const fetchNews = async () => {
+// Define the same type for articles used in the API route
+type NewsArticle = {
+  source: { id: string | null; name: string };
+  author: string | null;
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string | null;
+  publishedAt: string;
+  content: string | null;
+};
 
+export const fetchNews = async (): Promise<NewsArticle[]> => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/everything?q=tesla&from=2024-12-05&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
-    );
+    const response = await fetch('/api/news'); // Internal API route
+    if (!response.ok) {
+      throw new Error('Failed to fetch news');
+    }
     const data = await response.json();
-    console.log(data)
-    return data.articles;
+    console.log(data);
+    return data.articles || [];
   } catch (error) {
-    console.error("Error fetching news:", error);
+    console.error('Error fetching news:', error);
     return [];
   }
 };
