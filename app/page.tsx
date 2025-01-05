@@ -150,7 +150,7 @@ export default function Home() {
       <div className="flex w-full flex-1 flex-col">
         <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
           <div className="flex items-center gap-4">
-            <MobileNav onFilterChange={handleFilterChange} />
+            <MobileNav filters={filters} onFilterChange={handleFilterChange} authors={authors} />
             <MainNav />
           </div>
           <div className="flex items-center gap-4">

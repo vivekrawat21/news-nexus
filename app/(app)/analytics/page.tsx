@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // For routing
+import { useRouter } from "next/navigation";
 import { fetchNews } from "@/lib/util/fetchNews";
 import {
   Card,
@@ -24,11 +24,29 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Button } from "@/components/ui/button"; // Assuming you have a button component
+import { Button } from "@/components/ui/button";
+
+// Define types
+type NewsArticle = {
+  source: {
+    name: string;
+  };
+  publishedAt: string;
+};
+
+type SourceDistribution = {
+  name: string;
+  count: number;
+};
+
+type TimeDistribution = {
+  timeRange: string;
+  count: number;
+};
 
 // Helper function to calculate source distribution
-const getSourceDistribution = (data) => {
-  const sourceCount = {};
+const getSourceDistribution = (data: NewsArticle[]): SourceDistribution[] => {
+  const sourceCount: Record<string, number> = {};
   data.forEach((news) => {
     const sourceName = news.source.name || "Unknown Source";
     sourceCount[sourceName] = (sourceCount[sourceName] || 0) + 1;
@@ -37,8 +55,8 @@ const getSourceDistribution = (data) => {
 };
 
 // Helper function to calculate publication time distribution
-const getTimeDistribution = (data) => {
-  const timeBuckets = {
+const getTimeDistribution = (data: NewsArticle[]): TimeDistribution[] => {
+  const timeBuckets: Record<string, number> = {
     "00:00-06:00": 0,
     "06:00-12:00": 0,
     "12:00-18:00": 0,
@@ -57,10 +75,11 @@ const getTimeDistribution = (data) => {
   }));
 };
 
+// Chart colors
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const AnalyticsPage = () => {
-  const [newsData, setNewsData] = useState([]);
+  const [newsData, setNewsData] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -118,9 +137,11 @@ const AnalyticsPage = () => {
                   <span className="font-normal">{sourceData.length}</span>
                 </p>
                 <p className="text-lg font-semibold">
-                  Most Recent Article:
+                  Most Recent Article:{" "}
                   <span className="font-normal">
-                    {new Date(newsData[0].publishedAt).toLocaleString()}
+                    {newsData[0]
+                      ? new Date(newsData[0].publishedAt).toLocaleString()
+                      : "N/A"}
                   </span>
                 </p>
               </div>
@@ -133,11 +154,11 @@ const AnalyticsPage = () => {
                       nameKey="name"
                       cx="40%"
                       cy="40%"
-                      outerRadius={112} // Increased outer radius for better fit
-                      innerRadius={40} // Optional: Add inner radius for a doughnut chart effect
+                      outerRadius={112}
+                      innerRadius={40}
                       fill="#8884d8"
-                      label={({ percent }) => `${(percent * 100).toFixed(0)}%`} // Only show percentage
-                      labelLine={false} // Disable lines from center to labels
+                      label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                      labelLine={false}
                     >
                       {sourceData.map((_, index) => (
                         <Cell
@@ -154,7 +175,6 @@ const AnalyticsPage = () => {
             </CardContent>
           </Card>
         </TabsContent>
-
         <TabsContent value="source-analysis">
           <Card>
             <CardHeader>

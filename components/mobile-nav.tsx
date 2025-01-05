@@ -1,4 +1,3 @@
-// MobileNav.tsx
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -8,13 +7,19 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { Sidebar } from "./sidebar";
+import { Sidebar } from "@/components/sidebar";
 
 interface MobileNavProps {
+  filters: {
+    sortBy: string;
+    author: string;
+    
+  };
   onFilterChange: (key: string, value: string) => void;
+  authors: string[];
 }
 
-export function MobileNav({ onFilterChange }: MobileNavProps) {
+export function MobileNav({ filters, onFilterChange, authors }: MobileNavProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -27,8 +32,8 @@ export function MobileNav({ onFilterChange }: MobileNavProps) {
         <SheetHeader className="p-4">
           <SheetTitle className="text-left">Navigation</SheetTitle>
         </SheetHeader>
-        {/* Pass the onFilterChange to the Sidebar */}
-        <Sidebar filters={{}} onFilterChange={onFilterChange} />
+        {/* Pass the appropriate filters and onFilterChange */}
+        <Sidebar filters={filters} onFilterChange={onFilterChange} authors={authors} />
       </SheetContent>
     </Sheet>
   );
