@@ -12,12 +12,26 @@ import { useState, useEffect } from "react";
 import { fetchNews } from "@/lib/util/fetchNews"; // Assuming fetchNews is in a lib directory
 import Link from "next/link";
 
+interface Headline {
+  title: string;
+  views: number;
+  comments: number;
+  author: string;
+  time: string;
+  source: string;
+  urlToImage: string | null;
+  url: string;
+  publishedAt: string;
+  description: string;
+  content: string;
+}
+
 export default function Home() {
   const { userId } = useAuth();
   const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [headlines, setHeadlines] = useState<any[]>([]);
-  const [visibleHeadlines, setVisibleHeadlines] = useState<any[]>([]);
-  const [fullNews, setFullNews] = useState<any | null>(null);
+  const [headlines, setHeadlines] = useState<Headline[]>([]);
+  const [visibleHeadlines, setVisibleHeadlines] = useState<Headline[]>([]);
+  const [fullNews, setFullNews] = useState<Headline | null>(null);
   const [openNewsModal, setOpenNewsModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [authors, setAuthors] = useState<string[]>([]); // State to store authors dynamically
@@ -37,7 +51,7 @@ export default function Home() {
     const loadHeadlines = async () => {
       setLoading(true);
       const articles = await fetchNews();
-      const fetchedHeadlines = articles.map((article: any) => {
+      const fetchedHeadlines = articles.map((article: Headline) => {
         // Ensure only one or two authors are shown
         const articleAuthors = article.author
           ? article.author.split(",").slice(0, 2).join(", ")
@@ -49,7 +63,6 @@ export default function Home() {
           comments: article.comments || generateFakeCount(), // Generate fake count if missing
           author: articleAuthors, // Set authors
           time: new Date(article.publishedAt).toLocaleTimeString(),
-          source: article.source.name,
           urlToImage: article.urlToImage,
           url: article.url,
           publishedAt: article.publishedAt,
@@ -64,8 +77,9 @@ export default function Home() {
 
       // Extract authors and filter out duplicates
       const authorsList = fetchedHeadlines
-        .map((article) => article.author)
-        .filter((author, index, self) => self.indexOf(author) === index); // Get unique authors
+        .map((article: { author: string; }) => article.author)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((author: any, index: any, self: string | any[]) => self.indexOf(author) === index); // Get unique authors
       setAuthors(authorsList);
     };
 
@@ -84,7 +98,7 @@ export default function Home() {
     setVisibleHeadlines(headlines.slice(0, defaultVisibleCount));
   };
 
-  const openFullNews = (headline: any) => {
+  const openFullNews = (headline: Headline) => {
     if (!userId) {
       setOpenLoginModal(true);
       return;
@@ -98,7 +112,7 @@ export default function Home() {
   const filteredHeadlines = headlines
     .filter(
       (headline) =>
-        headline.title.toLowerCase().includes(filters.search.toLowerCase()) &&
+        headline?.title?.toLowerCase().includes(filters.search.toLowerCase()) &&
         (filters.author
           ? headline.author
               ?.toLowerCase()
@@ -155,7 +169,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold sm:text-2xl">
-                  Today's Headlines
+                  Today{"'"}s Headlines
                 </h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

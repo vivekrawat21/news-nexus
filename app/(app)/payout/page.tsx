@@ -6,13 +6,13 @@ import { Label } from "@/components/ui/label";
 import { CSVLink } from "react-csv";
 import { useRouter } from "next/navigation";
 import { jsPDF } from "jspdf";
-import { useUser } from '@clerk/clerk-react'
 
 export default function PayoutPage() {
   // States for payout calculation
   const [rate, setRate] = useState<number>(0);
   const [articles, setArticles] = useState<number>(0);
   const [totalPayout, setTotalPayout] = useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [payoutHistory, setPayoutHistory] = useState<any[]>([]); // Store previous payouts
   const [isClient, setIsClient] = useState(false); // Check if it's the client-side render
   const router = useRouter();
@@ -83,7 +83,7 @@ export default function PayoutPage() {
     doc.text("Payout History", 20, 20);
 
     let yOffset = 30;
-    payoutHistory.forEach((payout, index) => {
+    payoutHistory.forEach((payout) => {
       doc.text(`Invoice: ${payout.id}`, 20, yOffset);
       doc.text(`Date: ${payout.date}`, 20, yOffset + 10);
       doc.text(`Rate: $${payout.rate}`, 20, yOffset + 20);
