@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Eye, MessageCircle, Share2 } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { fetchNews } from "@/lib/util/fetchNews"; // Assuming fetchNews is in a lib directory
+import { fetchNews, NewsArticle } from "@/lib/util/fetchNews"; // Assuming fetchNews is in a lib directory
 import Link from "next/link";
 
 interface Headline {
@@ -18,7 +18,6 @@ interface Headline {
   comments: number;
   author: string;
   time: string;
-  source: string;
   urlToImage: string | null;
   url: string;
   publishedAt: string;
@@ -51,7 +50,7 @@ export default function Home() {
     const loadHeadlines = async () => {
       setLoading(true);
       const articles = await fetchNews();
-      const fetchedHeadlines = articles.map((article: Headline) => {
+      const fetchedHeadlines = articles.map((article: NewsArticle) => {
         // Ensure only one or two authors are shown
         const articleAuthors = article.author
           ? article.author.split(",").slice(0, 2).join(", ")

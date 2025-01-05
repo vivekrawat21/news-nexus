@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 // Define types for the news response
 type NewsArticle = {
-  source: { id: string | null; name: string };
   author: string | null;
   title: string;
   description: string;
@@ -10,13 +9,15 @@ type NewsArticle = {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
+  views: number | null;
+  comments: number | null;
 };
 
 type NewsResponse = {
   articles: NewsArticle[];
 };
 
-export async function GET(req: Request) {
+export async function GET() {
 
   
 

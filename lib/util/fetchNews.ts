@@ -1,5 +1,5 @@
 // Define the same type for articles used in the API route
-type NewsArticle = {
+  export type NewsArticle = {
   source: { id: string | null; name: string };
   author: string | null;
   title: string;
@@ -8,6 +8,10 @@ type NewsArticle = {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
+  views: number | null;
+  comments: number | null;
+
+
 };
 
 export const fetchNews = async (): Promise<NewsArticle[]> => {
