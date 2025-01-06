@@ -19,7 +19,6 @@ type NewsResponse = {
 
 export async function GET() {
 
-  
 
   try {
     const response = await fetch(
