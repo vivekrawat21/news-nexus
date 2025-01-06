@@ -23,7 +23,7 @@ export async function GET() {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/everything?q=tesla&from=2024-12-05&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/everything?q=tesla&from=2024-12-06&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
     );
 
     if (!response.ok) {
